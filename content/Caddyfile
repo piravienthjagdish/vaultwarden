@@ -1,0 +1,18 @@
+:{$PORT} {
+	handle /notifications/hub/negotiate* {
+		reverse_proxy * {
+			to localhost:{$ROCKET_PORT}
+			trusted_proxies private_ranges
+		}
+	}
+	handle /notifications/hub* {
+		reverse_proxy * {
+			to localhost:{$WEBSOCKET_PORT}
+			trusted_proxies private_ranges
+		}
+	}
+	reverse_proxy * {
+		to localhost:{$ROCKET_PORT}
+		trusted_proxies private_ranges
+	}
+}
